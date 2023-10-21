@@ -15,6 +15,8 @@ jobs:
         include:
           - target: x86_64-unknown-linux-gnu
             archive: tar.gz
+          - target: x86_64-unknown-linux-musl
+            archive: tar.gz
           - target: x86_64-apple-darwin
             archive: zip
           - target: aarch64-apple-darwin
@@ -40,7 +42,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        target: [x86_64-unknown-linux-gnu]
+        target: [x86_64-apple-darwin]
     steps:
       - uses: actions/checkout@master
       - name: Compile and release
