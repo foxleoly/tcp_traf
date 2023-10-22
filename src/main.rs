@@ -2,7 +2,10 @@ use std::{env, thread};
 use std::net::TcpStream;
 use std::thread::sleep;
 use std::time::Duration;
+// use chrono::format::Item::Fixed;
 use chrono::Local;
+use log::info;
+use log4rs;
 
 fn connect(ip: &str) {
 
@@ -10,17 +13,19 @@ fn connect(ip: &str) {
         let now = Local::now();
         let _timestamp = format!("{}.{:06}", now.format("%Y-%m-%d %H:%M:%S"),
                                  now.timestamp_subsec_micros());
-        println!("{_timestamp} ok: {}:{} --> {}",
+        info!("ok: {}:{} --> {}",
                  stream.local_addr().unwrap().ip(),
                  stream.local_addr().unwrap().port(),
                  ip);
+        // info!("ok test {_timestamp}");
         // stream.write(b"verify").unwrap();
         stream.shutdown(std::net::Shutdown::Both).unwrap();
     } else {
         let now = Local::now();
         let _timestamp = format!("{}.{:06}", now.format("%Y-%m-%d %H:%M:%S"),
                                  now.timestamp_subsec_micros());
-        println!("{_timestamp} fail: src 0 --> {}",ip);
+        info!("fail: src 0 --> {}",ip);
+        // info!("fail test {_timestamp}");
     }
 
 }
@@ -48,10 +53,12 @@ fn read_to_list(path: &str) -> Vec<String> {
 
 fn main() {
     let args: Vec<String>= env::args().collect();
+    log4rs::init_file("log4rs.yaml", Default::default()).unwrap();
+
     let cnt = args[1].parse::<i32>().unwrap();
     for _ in 0..cnt{
         sleep(Duration::from_secs(1));
         ip_list();
-        println!("********")
+        // info!("********");
     }
 }
