@@ -8,6 +8,7 @@ use log::info;
 use log4rs;
 
 fn connect(ip: &str) {
+    // connect to remote ip with port
 
     if let Ok( stream) = TcpStream::connect(ip) {
         let now = Local::now();
@@ -18,7 +19,6 @@ fn connect(ip: &str) {
                  stream.local_addr().unwrap().port(),
                  ip);
         // info!("ok test {_timestamp}");
-        // stream.write(b"verify").unwrap();
         stream.shutdown(std::net::Shutdown::Both).unwrap();
     } else {
         let now = Local::now();
@@ -30,6 +30,7 @@ fn connect(ip: &str) {
 
 }
 fn ip_list() {
+    // send the tcp syn to remote ip address with thread
     let filepath: Vec<String> = env::args().collect();
     let remote = read_to_list(&filepath[2]);
     let handle = thread::spawn(move||
@@ -42,6 +43,7 @@ fn ip_list() {
     handle.join().unwrap();
 }
 fn read_to_list(path: &str) -> Vec<String> {
+    // read the file content to ip list
     let path = std::fs::read_to_string(path).unwrap();
     let result: Vec<String> = path
         .lines()
@@ -52,7 +54,9 @@ fn read_to_list(path: &str) -> Vec<String> {
 }
 
 fn main() {
+    // todo: need add args parser
     let args: Vec<String>= env::args().collect();
+    // read log4rs setting
     log4rs::init_file("log4rs.yaml", Default::default()).unwrap();
 
     let cnt = args[1].parse::<i32>().unwrap();
