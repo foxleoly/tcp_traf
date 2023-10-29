@@ -11,9 +11,9 @@ fn connect(ip: &str) {
     // connect to remote ip with port
 
     if let Ok( stream) = TcpStream::connect(ip) {
-        let now = Local::now();
-        let _timestamp = format!("{}.{:06}", now.format("%Y-%m-%d %H:%M:%S"),
-                                 now.timestamp_subsec_micros());
+        // let now = Local::now();
+        // let _timestamp = format!("{}.{:06}", now.format("%Y-%m-%d %H:%M:%S"),
+                                //  now.timestamp_subsec_micros());
         info!("ok: {}:{} --> {}",
                  stream.local_addr().unwrap().ip(),
                  stream.local_addr().unwrap().port(),
@@ -21,9 +21,9 @@ fn connect(ip: &str) {
         // info!("ok test {_timestamp}");
         stream.shutdown(std::net::Shutdown::Both).unwrap();
     } else {
-        let now = Local::now();
-        let _timestamp = format!("{}.{:06}", now.format("%Y-%m-%d %H:%M:%S"),
-                                 now.timestamp_subsec_micros());
+        // let now = Local::now();
+        // let _timestamp = format!("{}.{:06}", now.format("%Y-%m-%d %H:%M:%S"),
+                                //  now.timestamp_subsec_micros());
         info!("fail: src 0 --> {}",ip);
         // info!("fail test {_timestamp}");
     }
